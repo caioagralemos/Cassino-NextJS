@@ -18,13 +18,14 @@ export default function Roleta({ money, setMoney }) {
   const [isLoading, setLoading] = useState(false);
   const [alreadyPlayed, setalreadyPlayed] = useState(false);
   const [wonLastGame, setWonLastGame] = useState(false);
+  const [betType, setBetType] = useState("x2");
 
   useEffect(() => {
     deal();
   }, []);
 
   async function deal() {
-    let num = Math.floor(Math.random() * 50 + 1);
+    let num = Math.floor(Math.random() * 30 + 1);
     let cor;
 
     if (num === 0) cor = "VERDE";
@@ -39,51 +40,55 @@ export default function Roleta({ money, setMoney }) {
     setLoading(true);
     setalreadyPlayed(false);
     await setMoney(money - betValue);
-    await pause(2500);
+    await pause(2300);
     await deal();
     setLoading(false);
     setalreadyPlayed(true);
   }
 
   useEffect(() => {
-    compareColor();
-  }, [dealedColor, dealedNumber]);
+    compare();
+  }, [dealedColor, dealedNumber, choiceColor, choiceNumber]);
+
+  async function compare() {
+    if (betType === "x2") {
+      const lowerCaseChoiceColor = choiceColor.toLowerCase();
+      const lowerCaseDealedColor = dealedColor.toLowerCase();
+
+      if (lowerCaseChoiceColor === lowerCaseDealedColor) {
+        setWonLastGame(true);
+        let win = betValue * 2;
+        setPremio(win);
+        let total = parseInt(money) + parseInt(win);
+        setMoney(total);
+      } else {
+        setWonLastGame(false);
+        setPremio(betValue);
+      }
+    } else if (betType === "x30") {
+      const chosenNumber = parseInt(choiceNumber);
+      const dealedNum = parseInt(dealedNumber);
   
-  async function compareColor() {
-    const lowerCaseChoiceColor = choiceColor.toLowerCase();
-    const lowerCaseDealedColor = dealedColor.toLowerCase();
-  
-    if (lowerCaseChoiceColor === lowerCaseDealedColor) {
-      setWonLastGame(true);
-      let win = betValue * 2;
-      setPremio(win);
-      let total = parseInt(money) + parseInt(win);
-      setMoney(total);
-    } else {
-      setWonLastGame(false);
-      setPremio(betValue);
+      if (chosenNumber === dealedNum) {
+        setWonLastGame(true);
+        let win = betValue * 30;
+        setPremio(win);
+        let total = parseInt(money) + parseInt(win);
+        setMoney(total);
+      } else {
+        setWonLastGame(false);
+        setPremio(betValue);
+      }
     }
   }
-  
-  async function compareNumber() {
-  
-    if (choiceNumber === dealedNumber) {
-      setWonLastGame(true);
-      let win = betValue * 50;
-      setPremio(win);
-      let total = parseInt(money) + parseInt(win);
-      setMoney(total);
-    } else {
-      setWonLastGame(false);
-      setPremio(betValue);
-    }
-  }
-  
+
   async function betx2() {
+    await setBetType("x2");
     await bet();
   }
 
-  async function betx50() {
+  async function betx30() {
+    await setBetType("x30");
     await bet();
   }
 
@@ -117,18 +122,18 @@ export default function Roleta({ money, setMoney }) {
         <Button
           onClick={betx2}
           variant="outlined"
-          color="warning"
+          color="primary"
           style={{ margin: "20px" }}
         >
           Aposta por Cor (x2)
         </Button>
         <Button
-          onClick={betx50}
+          onClick={betx30}
           variant="outlined"
           color="success"
           style={{ margin: "20px" }}
         >
-          Cor Verde ou Número (x50)
+          Cor Verde ou Número (x30)
         </Button>
       </div>
     </div>
