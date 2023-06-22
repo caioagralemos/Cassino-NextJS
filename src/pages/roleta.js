@@ -3,13 +3,13 @@ import RoletaForm from "../../components/Roleta/roletaForm";
 import classes from "./roleta.module.css";
 import pause from "../../components/extras/pause";
 import { Button } from "@mui/material";
-// import reset from "../../components/extras/reset";
+import Cookies from "js-cookie";
 
 export default function Roleta({ money, setMoney }) {
   const [choiceNumber, setChoiceNumber] = useState(0);
   const [choiceColor, setChoiceColor] = useState("VERDE");
 
-  const [dealedNum, setDealedNum] = useState(0);
+  const [dealedNumber, setDealedNumber] = useState(0);
   const [dealedColor, setDealedColor] = useState("VERDE");
 
   const [betValue, setbetValue] = useState(0);
@@ -19,6 +19,9 @@ export default function Roleta({ money, setMoney }) {
   const [alreadyPlayed, setalreadyPlayed] = useState(false);
   const [wonLastGame, setWonLastGame] = useState(false);
 
+  useEffect(() => {
+    deal();
+  }, []);
 
   async function deal() {
     let num = Math.floor(Math.random() * 50 + 1);
@@ -28,16 +31,9 @@ export default function Roleta({ money, setMoney }) {
     else if (num % 2 === 0) cor = "PRETO";
     else cor = "VERMELHO";
 
-    await setDealedNum(num);
-    await setDealedColor(cor);
-
-    return { num, cor };
+    setDealedNumber(num);
+    setDealedColor(cor);
   }
-
-  useEffect(() => {
-    deal()
-  }, [])
-  
 
   async function bet() {
     setLoading(true);
@@ -49,31 +45,46 @@ export default function Roleta({ money, setMoney }) {
     setalreadyPlayed(true);
   }
 
-  async function compare(n) {
+  useEffect(() => {
+    compareColor();
+  }, [dealedColor, dealedNumber]);
+  
+  async function compareColor() {
     const lowerCaseChoiceColor = choiceColor.toLowerCase();
     const lowerCaseDealedColor = dealedColor.toLowerCase();
   
     if (lowerCaseChoiceColor === lowerCaseDealedColor) {
       setWonLastGame(true);
-      const win = betValue * n;
-      await setPremio(win);
-      const total = parseInt(money) + parseInt(betValue);
-      await setMoney(total);
+      let win = betValue * 2;
+      setPremio(win);
+      let total = parseInt(money) + parseInt(win);
+      setMoney(total);
     } else {
       setWonLastGame(false);
       setPremio(betValue);
     }
   }
   
-
+  async function compareNumber() {
+  
+    if (choiceNumber === dealedNumber) {
+      setWonLastGame(true);
+      let win = betValue * 50;
+      setPremio(win);
+      let total = parseInt(money) + parseInt(win);
+      setMoney(total);
+    } else {
+      setWonLastGame(false);
+      setPremio(betValue);
+    }
+  }
+  
   async function betx2() {
     await bet();
-    await compare(2);
   }
 
   async function betx50() {
     await bet();
-    await compare(50);
   }
 
   return (
@@ -83,7 +94,7 @@ export default function Roleta({ money, setMoney }) {
       <h2>
         {isLoading
           ? "Loading..."
-          : `NÚMERO SORTEADO: ${dealedNum}\nCOR SORTEADA: ${dealedColor}`}
+          : `NÚMERO SORTEADO: ${dealedNumber}\nCOR SORTEADA: ${dealedColor}`}
       </h2>
       <h2>
         {alreadyPlayed
@@ -96,13 +107,13 @@ export default function Roleta({ money, setMoney }) {
       </h2>
       <RoletaForm
         numero={choiceNumber}
-        setChoiceNumber={setChoiceNumber}
+        setNumero={setChoiceNumber}
         cor={choiceColor}
         setCor={setChoiceColor}
         aposta={betValue}
         setAposta={setbetValue}
       />
-      <div style={{margin: '0px'}}>
+      <div style={{ margin: "0px" }}>
         <Button
           onClick={betx2}
           variant="outlined"
