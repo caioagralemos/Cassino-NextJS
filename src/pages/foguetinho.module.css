@@ -1,0 +1,33 @@
+.multiplicador{
+    font-size: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: blue;
+}
+
+.multiplicadorParado{
+    font-size: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: red;
+}
+
+.input {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stop {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.start {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
