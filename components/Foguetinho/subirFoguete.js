@@ -2,8 +2,13 @@ const subirFoguete = (setMulti, setIsOn) => {
   setMulti(0);
   var numeros = [];
   numeros[0] = Math.random() * 6;
-  numeros[1] = Math.random() * 3;
-  numeros[2] = Math.random() * 1;
+  numeros[1] = Math.random() * 5;
+  numeros[2] = Math.random() * 4;
+  numeros[3] = Math.random() * 3;
+  numeros[4] = Math.random() * 2;
+  numeros[5] = Math.random() * 1;
+  numeros[6] = Math.random() * 1;
+  numeros[7] = Math.random() * 1;
   var index = Math.floor(Math.random() * numeros.length);
   var random = numeros[index];
 
