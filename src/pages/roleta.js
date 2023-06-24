@@ -96,7 +96,7 @@ export default function Roleta({ money, setMoney }) {
     <div className={classes.home}>
       <img src="https://media4.giphy.com/media/26uflBhaGt5lQsaCA/giphy.gif" />
       <h1>ROLETA</h1>
-      <h2>
+      <h2 className={classes.ultimoValor}>
         {isLoading
           ? "Loading..."
           : `NÚMERO SORTEADO: ${dealedNumber}\nCOR SORTEADA: ${dealedColor}`}

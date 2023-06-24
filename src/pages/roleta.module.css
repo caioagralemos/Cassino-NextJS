@@ -16,3 +16,9 @@
 .text {
     text-align: center;
 }
+
+.ultimoValor {
+    padding: 10px;
+    background-color: black;
+    margin: 5px;
+}
