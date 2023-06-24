@@ -3,7 +3,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: blue;
+    background-color: green;
+    padding: 20px;
+    padding-left: 50px;
+    padding-right: 50px;
+    margin: 50px;
 }
 
 .multiplicadorParado{
@@ -12,6 +16,14 @@
     align-items: center;
     justify-content: center;
     background-color: red;
+    padding: 20px;
+    padding-left: 50px;
+    padding-right: 50px;
+    margin: 50px;
+}
+
+.gif {
+    height: 200px;
 }
 
 .input {
@@ -30,4 +42,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 50px;
+    height: auto;
 }

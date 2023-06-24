@@ -1,7 +1,7 @@
 import { useState } from "react";
 import subirFoguete from "../../components/Foguetinho/subirFoguete";
 import classes from "./foguetinho.module.css";
-import { TextField } from "@mui/material";
+import { Button } from "@mui/material";
 
 export default function Foguetinho({ money, setMoney }) {
   const [multi, setMulti] = useState(0);
@@ -28,11 +28,14 @@ export default function Foguetinho({ money, setMoney }) {
   }
 
   async function startBet() {
-    setIsOn(true);
-    await setBet(parseFloat(form));
-    setMoney(money - form);
-    setForm(0);
-    await subirFoguete(setMulti, setIsOn);
+    if (money >= form && form > 0) {
+      setIsOn(true);
+      await setBet(parseFloat(form));
+      setMoney(money - form);
+      await subirFoguete(setMulti, setIsOn);
+    } else {
+      alert("Não é possível realizar essa aposta.");
+    }
   }
 
   function stopBet() {
@@ -43,30 +46,51 @@ export default function Foguetinho({ money, setMoney }) {
   }
 
   return (
-    <div>
+    <div className={classes.home}>
+        <img className={classes.gif} alt="foguetinho" src="https://cdn.dribbble.com/users/6845708/screenshots/17574146/media/33ac10886e28f84074a03e9a6f8aeda0.gif"/>
       <div
         className={isOn ? classes.multiplicador : classes.multiplicadorParado}
       >
         {multi}x
       </div>
 
-      <input
-        className={classes.input}
-        type="number"
-        value={form}
-        min={0}
-        onChange={handleChange}
-      />
+      <h1>FOGUETINHO DO PIX</h1>
 
-      {isOn ? (
-        <button className={classes.stop} onClick={stopBet}>
-          Stop
-        </button>
-      ) : (
-        <button className={classes.start} disabled={isOn} onClick={startBet}>
-          Start
-        </button>
-      )}
+      <div>
+        <input
+          className={classes.input}
+          id="bet"
+          type="number"
+          value={form}
+          min={0}
+          onChange={handleChange}
+        />
+      </div>
+
+      <div>
+        {isOn ? (
+          <Button
+            className={classes.stop}
+            onClick={stopBet}
+            variant="outlined"
+            color="success"
+            style={{ margin: "20px" }}
+            >
+            TIRAR
+          </Button>
+        ) : (
+          <Button
+            className={classes.start}
+            disabled={isOn}
+            onClick={startBet}
+            variant="outlined"
+            color="error"
+            style={{ margin: "20px" }}
+          >
+            COMEÇAR
+          </Button>
+        )}
+      </div>
     </div>
   );
 }
