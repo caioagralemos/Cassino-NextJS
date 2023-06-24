@@ -4,12 +4,12 @@ import DenseAppBar from "../../components/UI/navbar";
 import Cookies from "js-cookie";
 
 export default function App({ Component, pageProps }) {
-  const [money, setMoney] = useState(0);
+  const [money, setMoney] = useState(0.00);
   
   useEffect(() => {
     const token = Cookies.get("money");
     if (token) {
-      setMoney(parseInt(token));
+      setMoney(parseFloat(token));
     }
   }, [])
   

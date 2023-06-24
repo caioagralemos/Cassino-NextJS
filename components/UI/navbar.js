@@ -90,7 +90,7 @@ export default function DenseAppBar({ money }) {
               }}
             >
               <div style={{ display: "flex", alignItems: "center" }}>
-                CRÉDITO = R$ {money},00
+                CRÉDITO = R$ {money}
               </div>
             </Box>
           </Toolbar>
