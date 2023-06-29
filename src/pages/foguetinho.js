@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import subirFoguete from "../../components/Foguetinho/subirFoguete";
 import classes from "./foguetinho.module.css";
 import { Button } from "@mui/material";
+import Head from "next/head";
 
 export default function Foguetinho({ money, setMoney }) {
   const [multi, setMulti] = useState(0);
@@ -46,51 +47,60 @@ export default function Foguetinho({ money, setMoney }) {
   }
 
   return (
-    <div className={classes.home}>
-        <img className={classes.gif} alt="foguetinho" src="https://cdn.dribbble.com/users/6845708/screenshots/17574146/media/33ac10886e28f84074a03e9a6f8aeda0.gif"/>
-      <div
-        className={isOn ? classes.multiplicador : classes.multiplicadorParado}
-      >
-        {multi}x
-      </div>
-
-      <h1>FOGUETINHO DO PIX</h1>
-
-      <div>
-        <input
-          className={classes.input}
-          id="bet"
-          type="number"
-          value={form}
-          min={0}
-          onChange={handleChange}
+    <Fragment>
+      <Head>
+        <title>FOGUETINHO - Cassino</title>
+      </Head>
+      <div className={classes.home}>
+        <img
+          className={classes.gif}
+          alt="foguetinho"
+          src="https://cdn.dribbble.com/users/6845708/screenshots/17574146/media/33ac10886e28f84074a03e9a6f8aeda0.gif"
         />
-      </div>
+        <div
+          className={isOn ? classes.multiplicador : classes.multiplicadorParado}
+        >
+          {multi}x
+        </div>
 
-      <div>
-        {isOn ? (
-          <Button
-            className={classes.stop}
-            onClick={stopBet}
-            variant="outlined"
-            color="success"
-            style={{ margin: "20px" }}
+        <h1>FOGUETINHO DO PIX</h1>
+
+        <div>
+          <input
+            className={classes.input}
+            id="bet"
+            type="number"
+            value={form}
+            min={0}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div>
+          {isOn ? (
+            <Button
+              className={classes.stop}
+              onClick={stopBet}
+              variant="outlined"
+              color="success"
+              style={{ margin: "20px" }}
             >
-            TIRAR
-          </Button>
-        ) : (
-          <Button
-            className={classes.start}
-            disabled={isOn}
-            onClick={startBet}
-            variant="outlined"
-            color="error"
-            style={{ margin: "20px" }}
-          >
-            COMEÇAR
-          </Button>
-        )}
+              TIRAR
+            </Button>
+          ) : (
+            <Button
+              className={classes.start}
+              disabled={isOn}
+              onClick={startBet}
+              variant="outlined"
+              color="error"
+              style={{ margin: "20px" }}
+            >
+              COMEÇAR
+            </Button>
+          )}
+        </div>
       </div>
-    </div>
+    </Fragment>
   );
 }

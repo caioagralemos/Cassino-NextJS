@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Fragment } from "react";
 import RoletaForm from "../../components/Roleta/roletaForm";
 import classes from "./roleta.module.css";
 import pause from "../../components/extras/pause";
 import { Button } from "@mui/material";
 import Cookies from "js-cookie";
+import Head from "next/head";
 
 export default function Roleta({ money, setMoney }) {
   const [choiceNumber, setChoiceNumber] = useState(0);
@@ -93,6 +94,10 @@ export default function Roleta({ money, setMoney }) {
   }
 
   return (
+    <Fragment>
+    <Head>
+      <title>ROLETA - Cassino</title>
+    </Head>
     <div className={classes.home}>
       <img src="https://media4.giphy.com/media/26uflBhaGt5lQsaCA/giphy.gif" />
       <h1>ROLETA</h1>
@@ -137,5 +142,6 @@ export default function Roleta({ money, setMoney }) {
         </Button>
       </div>
     </div>
+    </Fragment>
   );
 }
